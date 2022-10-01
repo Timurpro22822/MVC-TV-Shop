@@ -22,8 +22,12 @@
                 <td>@tv.Price hryvna</td>
                 <td>
                     <a asp-controller="TVs" asp-action="Details" asp-route-id="@tv.Id" class="btn btn-primary">Details</a>
+                    <a asp-controller="TVs" asp-action="Edit" asp-route-id="@tv.Id" class="btn btn-warning">Edit</a>
+                    <a asp-controller="TVs" asp-action="Delete" asp-route-id="@tv.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
   </tbody>
 </table>
+
+<a asp-controller="TVs" asp-action="Create" class="btn btn-primary">Create new TV</a>

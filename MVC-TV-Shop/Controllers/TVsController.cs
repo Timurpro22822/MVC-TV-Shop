@@ -28,5 +28,22 @@ namespace MVC_TV_Shop.Controllers
 
             return View(tv);
         }
+        
+        [HttpGet] // by default
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(TVModel TVModel)
+        {
+            if (!ModelState.IsValid) return View(TVModel);
+
+            context.TVs.Add(TVModel);
+            context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
