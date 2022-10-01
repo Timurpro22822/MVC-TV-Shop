@@ -1,0 +1,29 @@
+﻿@model List<MVC_TV_Shop.Models.TVModel>;
+
+<h1>All TVs</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Model</th>
+      <th scope="col">Diagonal</th>
+      <th scope="col">Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach (var tv in Model)
+        {
+            <tr class="align-middle">
+                <th scope="row">@tv.Id</th>
+                <td>@tv.Model</td>
+                <td>@tv.Diagonal</td>
+                <td>@tv.Price hryvna</td>
+                <td>
+                    <a asp-controller="TVs" asp-action="Details" asp-route-id="@tv.Id" class="btn btn-primary">Details</a>
+                </td>
+            </tr>
+        }
+  </tbody>
+</table>

@@ -1,0 +1,20 @@
+﻿@model MVC_TV_Shop.Models.TVModel;
+
+<div>
+	<a asp-action="Index" class="btn btn-dark">Back</a>
+	<h1 class="d-inline-block align-middle">TV Details</h1>
+</div>
+<hr />
+
+<section>
+	<h2 class="text-center">@Model.Model</h2>
+	
+	<h4>Diagonal</h4>
+	<p>@Model.Diagonal</p>
+
+	<h4>Year</h4>
+	<p>@Model.Year</p>
+
+	<h4>Price</h4>
+	<p>@Model.Price hryvna</p>
+</section>
