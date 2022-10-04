@@ -25,14 +25,27 @@ namespace MVC_TV_Shop.Controllers
             TVModel? tv = context.TVs.Find(id);
 
             if (tv == null) return NotFound();
-
             return View(tv);
         }
-        
         [HttpGet] // by default
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            return View();
+            TVModel tvmodel = context.TVs.Find(id);
+            return View(tvmodel);
+            //return View();
+        }
+        public IActionResult Delete(int id)
+        {
+            //context.TVs.Remove(id);
+            //if (tv == null) return NotFound();
+            //var tv = MockData.DeleteTVById(id);
+
+            var product = context.TVs.Find(id);
+            if (product == null) return NotFound();
+            context.TVs.Remove(product);
+            context.SaveChanges();
+            return RedirectToAction("Index");
+            //return View("Index");
         }
 
         [HttpPost]
