@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MVC_TV_Shop.Migrations
+namespace Data.Migrations
 {
     public partial class addResolution : Migration
     {

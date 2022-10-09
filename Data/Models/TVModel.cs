@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MVC_TV_Shop.Models
+namespace Data.Models
 {
     public class TVModel
     {

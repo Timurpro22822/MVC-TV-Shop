@@ -1,6 +1,6 @@
-﻿using MVC_TV_Shop.Models;
+﻿using Data.Models;
 
-namespace MVC_TV_Shop.Data
+namespace Data.Data
 {
     public static class MockData
     {

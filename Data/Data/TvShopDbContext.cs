@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MVC_TV_Shop.Models;
+using Data.Models;
+using Data.Data;
 
-namespace MVC_TV_Shop.Data
+namespace Data
 {
     public class TvShopDbContext : DbContext
     {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MVC_TV_Shop.Data;
+using Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MVC_TV_Shop.Data;
+﻿using Data;
+using Data.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC_TV_Shop.Models;
 
 namespace MVC_TV_Shop.Controllers
@@ -27,12 +29,22 @@ namespace MVC_TV_Shop.Controllers
             if (tv == null) return NotFound();
             return View(tv);
         }
-        [HttpGet] // by default
-        public IActionResult Create(int? id)
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            TVModel tvmodel = context.TVs.Find(id);
-            return View(tvmodel);
-            //return View();
+            TVModel? tVModel = context.TVs.Find(id);
+
+            if (tVModel == null) return NotFound();
+
+            return View(tVModel);
+        }
+        [HttpPost]
+        public IActionResult Edit(TVModel tVModel)
+        {
+            context.TVs.Update(tVModel);
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+
         }
         public IActionResult Delete(int id)
         {
@@ -47,13 +59,18 @@ namespace MVC_TV_Shop.Controllers
             return RedirectToAction("Index");
             //return View("Index");
         }
+        [HttpGet] // by default
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public IActionResult Create(TVModel TVModel)
+        public IActionResult Create(TVModel tvmodel)
         {
-            if (!ModelState.IsValid) return View(TVModel);
+            if (!ModelState.IsValid) return View(tvmodel);
 
-            context.TVs.Add(TVModel);
+            context.TVs.Add(tvmodel);
             context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
