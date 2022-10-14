@@ -1,7 +1,10 @@
 ﻿@model Data.Models.TVModel;
+@{
+    string returnUrl = ViewBag.ReturnUrl; //ViewData["ReturnUrl"] as string;
+}
 
 <div>
-	<a asp-action="Index" class="btn btn-dark">Back</a>
+	<a href="@returnUrl" class="btn btn-dark">Back</a>
 	<h1 class="d-inline-block align-middle">TV Details</h1>
 </div>
 <hr />

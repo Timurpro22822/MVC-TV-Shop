@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Data;
 using MVC_TV_Shop.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,18 @@ namespace MVC_TV_Shop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly TvShopDbContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(TvShopDbContext context)
         {
-            _logger = logger;
+            this.context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var tvs = context.TVs.ToList();
+
+            return View(tvs);
         }
 
         public IActionResult Privacy()

@@ -1,8 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Data.Models.TVModel>;
+@{
+	string productImagePlaceholder = "https://cdn.pixabay.com/photo/2015/11/27/08/34/screen-1065137_960_720.png";
 }
-
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<h1 class="display-4">Popular Products</h1>
+	<hr />
+	<p>TVs</p>
+
+	<div class="row row-cols-2 row-cols-lg-4 g-3 align-items-stretch">
+		@foreach(var i in Model)
+        {
+           <div class="col">
+               <div class="card h-100">
+                   <img src="@(i.ImagePath ?? productImagePlaceholder)" class="card-img-top prod-image" alt="Product Image">
+                   <div class="card-body">
+                       <h5 class="card-title">@i.Model</h5>
+                       <p>Price: @i.Price hryvna</p>
+                   </div>
+                   <div class="card-footer">
+                       <a asp-controller="TVs" asp-action="Details" asp-route-id="@i.Id" class="btn btn-secondary">Details</a>
+                   </div>
+               </div>
+           </div>
+        }
+    </div>
 </div>

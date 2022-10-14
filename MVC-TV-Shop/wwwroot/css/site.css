@@ -16,3 +16,21 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.prod-image {
+    max-height: 200px;
+    object-fit: contain;
+    padding: 8px;
+}
+
+.image-cell-block {
+    text-align: start;
+}
+.image-cell {
+    transition: .2s;
+    height: 70px;
+    border-radius: 3px;
+}
+.image-cell:hover {
+    transform: scale(1.5);
+}

@@ -1,11 +1,17 @@
 ﻿@model List<Data.Models.TVModel>;
 
+@{
+    string? alertMessage = TempData["alertMessage"]?.ToString();
+	string productImagePlaceholder = "https://cdn.pixabay.com/photo/2015/11/27/08/34/screen-1065137_960_720.png";
+}
+
 <h1>All TVs</h1>
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Image</th>
       <th scope="col">Model</th>
       <th scope="col">Diagonal</th>
       <th scope="col">Price</th>
@@ -17,6 +23,11 @@
         {
             <tr class="align-middle">
                 <th scope="row">@tv.Id</th>
+                <td>
+                    <div class="image-cell-block">
+                        <img src="@(tv.ImagePath ?? productImagePlaceholder)" class="image-cell" />
+                    </div>
+                </td>
                 <td>@tv.Model</td>
                 <td>@tv.Diagonal</td>
                 <td>@tv.Price hryvna</td>
@@ -31,3 +42,32 @@
 </table>
 
 <a asp-controller="TVs" asp-action="Create" class="btn btn-primary">Create new TV</a>
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    <div id="toster-block" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                @alertMessage
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{   
+    @if (alertMessage != null)
+    {
+        <script>
+            var toasterBlock = document.getElementById('toster-block')
+        
+            function showToaster()
+            {
+                var toast = new bootstrap.Toast(toasterBlock)
+                toast.show()
+            }
+
+            showToaster();
+        </script>
+    }
+}
