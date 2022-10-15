@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(TvShopDbContext))]
-    [Migration("20221014183124_AddImages")]
-    partial class AddImages
+    [Migration("20221015085350_AddTVColor")]
+    partial class AddTVColor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,40 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Data.Models.Color", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Colors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "White"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Black"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Gray"
+                        });
+                });
+
             modelBuilder.Entity("Data.Models.TVModel", b =>
                 {
                     b.Property<int>("Id")
@@ -31,32 +65,33 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Diagonal")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Resolution")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Year")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ColorId");
 
                     b.ToTable("TVs");
 
@@ -64,6 +99,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
+                            ColorId = 1,
                             Diagonal = "55″",
                             ImagePath = "https://samsungshop.com.ua/res/cache/images/7d/15/7d153c06cf8aeafa0307b002847130ad/ad6844aa1e4caa49c317ac5114ec9346.jpg",
                             Model = "Samsung QE55QN90BAUXUA Neo",
@@ -74,6 +110,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
+                            ColorId = 1,
                             Diagonal = "65″",
                             ImagePath = "https://samsungshop.com.ua/res/cache/images/1d/90/1d90f289e972b72228c32289202be042/e8d9a3ca400b66bf8c8c692f14da64a2.jpg",
                             Model = "Samsung QE65Q70BAUXUA",
@@ -84,6 +121,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 3,
+                            ColorId = 3,
                             Diagonal = "65″",
                             ImagePath = "https://samsungshop.com.ua/res/cache/images/40/19/401937ab040b932e4f2c1e9337ddd3c0/15a98e0cd6a396d4bca1ca2dc6617e43.jpg",
                             Model = "Samsung QE65Q60BAUXUA",
@@ -94,6 +132,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 4,
+                            ColorId = 2,
                             Diagonal = "55″",
                             ImagePath = "https://samsungshop.com.ua/res/cache/images/1c/4f/1c4f73fd470d63249f4a0763dff03d89/4262c548db10324900e61c6853ce44f8.jpg",
                             Model = "Samsung UE55BU8500UXUA",
@@ -101,6 +140,22 @@ namespace Data.Migrations
                             Resolution = "3840x2160 UHD 4K",
                             Year = 2022
                         });
+                });
+
+            modelBuilder.Entity("Data.Models.TVModel", b =>
+                {
+                    b.HasOne("Data.Models.Color", "Color")
+                        .WithMany("TVs")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Color");
+                });
+
+            modelBuilder.Entity("Data.Models.Color", b =>
+                {
+                    b.Navigation("TVs");
                 });
 #pragma warning restore 612, 618
         }

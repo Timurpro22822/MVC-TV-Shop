@@ -14,8 +14,11 @@ namespace Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TVModel>().HasData(MockData.GetTVs());
+
+            modelBuilder.Entity<Color>().HasData(MockData.GetColors());
         }
 
         public DbSet<TVModel> TVs { get; set; }
+        public DbSet<Color> Colors { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace MVC_TV_Shop.Controllers
         {
             //var tv = MockData.GetTVs();
             var tv = context.TVs.ToList();
+            //var tv = context.TVs.Include(l => l.Color).ToList();
 
             return View(tv);
         }
@@ -27,6 +28,9 @@ namespace MVC_TV_Shop.Controllers
             TVModel? tv = context.TVs.Find(id);
 
             if (tv == null) return NotFound();
+
+            ViewBag.ReturnUrl = Request.Headers["Referer"].ToString();
+
             return View(tv);
         }
         [HttpGet]
@@ -38,11 +42,18 @@ namespace MVC_TV_Shop.Controllers
 
             return View(tVModel);
         }
+        //private void SetColors()
+        //{
+        //    var colorsList = context.Color
+        //}
         [HttpPost]
         public IActionResult Edit(TVModel tVModel)
         {
             context.TVs.Update(tVModel);
             context.SaveChanges();
+
+            TempData["alertMessage"] = "Product was edited!";
+
             return RedirectToAction(nameof(Index));
 
         }
@@ -56,6 +67,9 @@ namespace MVC_TV_Shop.Controllers
             if (product == null) return NotFound();
             context.TVs.Remove(product);
             context.SaveChanges();
+
+            TempData["alertMessage"] = "Product was deleted!";
+
             return RedirectToAction("Index");
             //return View("Index");
         }
@@ -72,6 +86,8 @@ namespace MVC_TV_Shop.Controllers
 
             context.TVs.Add(tvmodel);
             context.SaveChanges();
+
+            TempData["alertMessage"] = "Product was create!";
 
             return RedirectToAction(nameof(Index));
         }

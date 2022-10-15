@@ -15,5 +15,7 @@ namespace Data.Models
         public int Year { get; set; }
         public decimal Price { get; set; }
         public string? ImagePath { get; set; }
+        public int ColorId { get; set; }
+        public Color? Color { get; set; }
     }
 }
