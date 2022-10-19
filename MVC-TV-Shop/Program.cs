@@ -3,9 +3,8 @@ using Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionStr = builder.Configuration.GetConnectionString("LocalDb");
-//string connectionStr = builder.Configuration.GetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TvShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-
+//string connectionStr = builder.Configuration.GetConnectionString("LocalDb");
+string connectionStr = builder.Configuration.GetConnectionString("SomeecomDb");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
