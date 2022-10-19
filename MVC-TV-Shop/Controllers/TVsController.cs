@@ -1,6 +1,7 @@
 ﻿using Data;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_TV_Shop.Models;
 
@@ -17,10 +18,10 @@ namespace MVC_TV_Shop.Controllers
         public IActionResult Index()
         {
             //var tv = MockData.GetTVs();
-            var tv = context.TVs.ToList();
-            //var tv = context.TVs.Include(l => l.Color).ToList();
+            //var tv = context.TVs.ToList();
+            var tvs = context.TVs.Include(l => l.Color).ToList();
 
-            return View(tv);
+            return View(tvs);
         }
         public IActionResult Details(int id)
         {
@@ -36,10 +37,15 @@ namespace MVC_TV_Shop.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            //TVModel? tVModel = context.TVs.Find(id);
+
+            //if (tVModel == null) return NotFound();
+
+            //return View(tVModel);
+
             TVModel? tVModel = context.TVs.Find(id);
-
-            if (tVModel == null) return NotFound();
-
+            if(tVModel == null) return NotFound();
+            SetColors();
             return View(tVModel);
         }
         //private void SetColors()
@@ -49,6 +55,12 @@ namespace MVC_TV_Shop.Controllers
         [HttpPost]
         public IActionResult Edit(TVModel tVModel)
         {
+            if(!ModelState.IsValid)
+            {
+                SetColors();
+                return View(tVModel);
+            }
+
             context.TVs.Update(tVModel);
             context.SaveChanges();
 
@@ -63,14 +75,14 @@ namespace MVC_TV_Shop.Controllers
             //if (tv == null) return NotFound();
             //var tv = MockData.DeleteTVById(id);
 
-            var product = context.TVs.Find(id);
-            if (product == null) return NotFound();
-            context.TVs.Remove(product);
+            TVModel? tVModel = context.TVs.Find(id);
+            if (tVModel == null) return NotFound();
+            context.TVs.Remove(tVModel);
             context.SaveChanges();
 
             TempData["alertMessage"] = "Product was deleted!";
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
             //return View("Index");
         }
         [HttpGet] // by default
@@ -79,10 +91,20 @@ namespace MVC_TV_Shop.Controllers
             return View();
         }
 
+        private void SetColors()
+        {
+            var colorsList = context.Colors.ToList();
+            ViewBag.ColorsList = new SelectList(colorsList, nameof(Color.Id), nameof(Color.Name));
+        }
+
         [HttpPost]
         public IActionResult Create(TVModel tvmodel)
         {
-            if (!ModelState.IsValid) return View(tvmodel);
+            if (!ModelState.IsValid)
+            {
+                SetColors();
+                return View(tvmodel);
+            }
 
             context.TVs.Add(tvmodel);
             context.SaveChanges();

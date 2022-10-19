@@ -1,4 +1,4 @@
-﻿@model List<Data.Models.TVModel>;
+﻿@model IEnumerable<MVC_TV_Shop.ViewModels.TVCardViewModel>
 @{
 	string productImagePlaceholder = "https://cdn.pixabay.com/photo/2015/11/27/08/34/screen-1065137_960_720.png";
 }
@@ -12,14 +12,22 @@
         {
            <div class="col">
                <div class="card h-100">
-                   <img src="@(i.ImagePath ?? productImagePlaceholder)" class="card-img-top prod-image" alt="Product Image">
+                   <img src="@(i.TVModel.ImagePath ?? productImagePlaceholder)" class="card-img-top prod-image" alt="Product Image">
                    <div class="card-body">
-                       <h5 class="card-title">@i.Model</h5>
-                       <p>Price: @i.Price hryvna</p>
+                       <h5 class="card-title">@i.TVModel.Model</h5>
+                       <p>Price: @i.TVModel.Price hryvna</p>
                    </div>
                    <div class="card-footer">
-                       <a asp-controller="TVs" asp-action="Details" asp-route-id="@i.Id" class="btn btn-secondary">Details</a>
-                   </div>
+                       <a asp-controller="TVs" asp-action="Details" asp-route-id="@i.TVModel.Id" class="btn btn-secondary">Details</a>
+                        @if (!i.IsInCart)
+                        {
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@i.TVModel.Id" class="btn btn-primary">Add to Cart</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Cart" asp-action="Remove" asp-route-id="@i.TVModel.Id" class="btn btn-secondary">Remove from Cart</a>
+                        }
+                    </div>
                </div>
            </div>
         }

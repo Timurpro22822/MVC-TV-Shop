@@ -3,15 +3,26 @@ using Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//string connectionStr = builder.Configuration.GetConnectionString("localdb");
-string connectionStr = builder.Configuration.GetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TvShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+string connectionStr = builder.Configuration.GetConnectionString("LocalDb");
+//string connectionStr = builder.Configuration.GetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TvShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // Dependency Injection
-builder.Services.AddDbContext<TvShopDbContext>(options => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TvShopDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+builder.Services.AddDbContext<TvShopDbContext>(options => options.UseSqlServer(connectionStr));
+
+builder.Services.AddDistributedMemoryCache();
+
+// session configurations
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 var app = builder.Build();
 
@@ -29,6 +40,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
